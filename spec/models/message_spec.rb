@@ -29,4 +29,19 @@ RSpec.describe Message, type: :model do
     message.valid?
     expect(message.errors).to include('recipient')
   end
+
+  it 'should return messages between users' do
+    user1 = FactoryGirl.create(:user)
+    user2 = FactoryGirl.create(:user)
+    user3 = FactoryGirl.create(:user)
+    10.times do
+      FactoryGirl.create(:message, sender: user1, recipient: user2)
+      FactoryGirl.create(:message, sender: user2, recipient: user1)
+      FactoryGirl.create(:message, sender: user1, recipient: user3)
+      FactoryGirl.create(:message, sender: user3, recipient: user1)
+      FactoryGirl.create(:message, sender: user2, recipient: user3)
+      FactoryGirl.create(:message, sender: user3, recipient: user2)
+    end
+    expect(Message.between_users(user1, user2).count).to be(20)
+  end
 end
