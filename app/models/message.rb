@@ -6,7 +6,9 @@ class Message < ApplicationRecord
   validate :recipient_is_not_sender
 
   scope :between_users, lambda { |user1, user2|
-    where(sender: user1, recipient: user2).or(where(sender: user2, recipient: user1))
+    where(sender: user1, recipient: user2)
+      .or(where(sender: user2, recipient: user1))
+      .order(created_at: :desc)
   }
 
   def recipient_is_not_sender
