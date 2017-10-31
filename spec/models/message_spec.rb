@@ -27,7 +27,7 @@ RSpec.describe Message, type: :model do
     message = Message.new(content: 'blah', message_type: valid_message_types.first)
     message.sender = message.recipient = sender
     message.valid?
-    expect(message.errors).to include('recipient')
+    expect(message.errors).to include('recipient_id')
   end
 
   it 'should return messages between users' do

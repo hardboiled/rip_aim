@@ -3,6 +3,36 @@ require 'rails_helper'
 RSpec.describe MessagesController, type: :controller do
   render_views
 
+  describe '#create' do
+    before(:each) do
+      @user1 = FactoryGirl.create(:user)
+      @user2 = FactoryGirl.create(:user)
+    end
+
+    it 'should create a message with valid params' do
+      expect do
+        post :create, params: {
+          sender_id: @user1.id, recipient_id: @user2.id,
+          content: 'hihi', message_type: 'text',
+          metadata: '{ "tags": [ "my_fair_lady", "jovial", "that_sunset_tho" ] }'
+        }, format: :json
+        expect(response).to have_http_status(:created)
+      end.to change(Message, :count).by(1)
+    end
+
+    it 'should return errors with invalid params' do
+      expect do
+        post :create, params: {
+          sender_id: @user1.id, recipient_id: @user1.id,
+          content: 'hihi', message_type: 'text',
+          metadata: '{ "tags": [ "my_fair_lady", "jovial", "that_sunset_tho" ] }'
+        }, format: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body)['error']['validations']).to include('recipient_id')
+      end.to change(Message, :count).by(0)
+    end
+  end
+
   describe '#index' do
     it 'should support pagination with limit and page' do
       message = FactoryGirl.create(:message)

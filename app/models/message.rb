@@ -12,6 +12,6 @@ class Message < ApplicationRecord
   }
 
   def recipient_is_not_sender
-    errors.add(:recipient, 'cannot be the same as sender') if recipient == sender
+    errors.add(:recipient_id, 'cannot be the same as sender') if recipient == sender
   end
 end

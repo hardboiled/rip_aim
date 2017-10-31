@@ -1,8 +1,15 @@
 class MessagesController < ApplicationController
   include Concerns::Paginatable
-  before_action :valid_params, :index
-  before_action :verify_users_exist, :index
-  before_action :sanitize_pagination_params, :index
+  before_action :valid_params, only: :index
+  before_action :verify_users_exist, only: :index
+  before_action :sanitize_pagination_params, only: :index
+
+  def create
+    permitted = params.permit(%i[sender_id recipient_id content message_type metadata])
+    @message = Message.create(permitted)
+    return render_validation_error(@message.errors) if @message.errors.any?
+    render :show, status: :created
+  end
 
   def index
     messages = Message.between_users(*params[:users])
@@ -21,6 +28,11 @@ class MessagesController < ApplicationController
   end
 
   def verify_users_exist
-    head(:not_found) unless User.where(id: params[:users]).length == 2
+    user_ids = if params[:action] == 'index'
+                 params[:users]
+               else
+                 [params[:sender_id], params[:recipient_id]]
+               end
+    head(:not_found) unless User.where(id: user_ids).length == 2
   end
 end
