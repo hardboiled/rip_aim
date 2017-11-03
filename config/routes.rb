@@ -5,7 +5,7 @@ Rails.application.routes.draw do
      post 'messages', to: 'messages#create'
      get '/messages', to: 'messages#index'
    end
-   post 'users/login'
-   post 'users/logout'
+   post 'sessions/login'
+   get 'sessions/logout'
   end
 end

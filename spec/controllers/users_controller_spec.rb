@@ -35,7 +35,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe '#create' do
-    it 'should return success with valid params' do
+    it 'should return success with valid params and login user' do
       request_params = { username: 'blahsdf33', password: 'hihihihi8' }
       expect do
         post :create, params: request_params, format: :json
@@ -44,8 +44,8 @@ RSpec.describe UsersController, type: :controller do
           hash_including('id' => anything, 'username' => 'blahsdf33')
         )
       end.to change(User, :count).by(1)
+      expect(session[:current_user_id]).to_not be(nil)
     end
-
     it 'should return errors with invalid params' do
       request_params = { password: 'hihihihi8' }
       post :create, params: request_params, format: :json

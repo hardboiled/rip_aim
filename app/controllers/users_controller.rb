@@ -19,22 +19,6 @@ class UsersController < ApplicationController
     render :show
   end
 
-  def login
-    user = User.find_by_username(params[:username])
-    unless user.nil? || user.authenticate(params[:password])
-      return render_error_hash(
-        'authorization_error', 'username or password does not match our records', :unauthorized
-      )
-    end
-    sign_in(user)
-    render :show, status: :ok
-  end
-
-  def logout
-    sign_out
-    render :show, status: :ok
-  end
-
   private
 
   def session_for_user
