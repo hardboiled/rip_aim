@@ -97,10 +97,8 @@ RSpec.describe MessagesController, type: :controller do
 
     it 'should default to 100 records' do
       message = FactoryGirl.create(:message)
-      user_ids = []
-      auth_get :index, { params:
-        valid_params(message.sender.id, message.recipient.id)
-      }, message.sender.id
+      auth_get :index, { params: valid_params(message.sender.id, message.recipient.id) },
+        message.sender.id
       expect(JSON.parse(response.body)).to match(hash_including('limit' => 100))
     end
 

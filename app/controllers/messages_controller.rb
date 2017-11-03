@@ -6,7 +6,6 @@ class MessagesController < ApplicationController
   before_action :require_sender_is_current_user
   before_action :valid_params, :verify_users_exist, :sanitize_pagination_params, only: :index
 
-
   def create
     permitted = params.permit(%i[sender_id recipient_id content message_type metadata])
     @message = Message.create(permitted)
