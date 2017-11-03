@@ -1,23 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
+  include RequestHelper
+
   render_views
 
   describe '#show' do
+    it_behaves_like 'a user authenticated endpoint' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:execute_request) do
+        lambda do
+          get :show, { params: { id: user.id } }.merge(format: :json)
+        end
+      end
+    end
+
     it 'should return success for valid user' do
       user = FactoryGirl.create(:user)
       expected_response = {
         'id' => user.id, 'username' => user.username,
         'created_at' => anything, 'updated_at' => anything
       }
-      get :show, params: { id: user.id }, format: :json
+      auth_get :show, { params: { id: user.id } }, user.id
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)).to match(expected_response)
     end
 
-    it 'should return not found for missing user' do
-      get :show, params: { id: SecureRandom.uuid }, format: :json
-      expect(response).to have_http_status(:not_found)
+    it 'should not allow a user to access another user\'s data' do
+      user1 = FactoryGirl.create(:user)
+      user2 = FactoryGirl.create(:user)
+      auth_get :show, { params: { id: user1.id } }, user2.id
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 
@@ -42,6 +55,24 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe '#update' do
+    def valid_params(user_id, username = nil)
+      {
+        id: user_id,
+        username: username
+      }.compact
+    end
+
+    it_behaves_like 'a user authenticated endpoint' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:execute_request) do
+        lambda do
+          new_username = "#{user.username}_1"
+          my_params = valid_params(user.id, new_username)
+          patch :update, { params: my_params }.merge(format: :json)
+        end
+      end
+    end
+
     it 'should return success for valid user' do
       user = FactoryGirl.create(:user)
       new_username = "#{user.username}_1"
@@ -49,14 +80,9 @@ RSpec.describe UsersController, type: :controller do
         'id' => user.id, 'username' => new_username,
         'created_at' => anything, 'updated_at' => anything
       }
-      patch :update, params: { id: user.id, username: new_username }, format: :json
+      auth_patch :update, { params: valid_params(user.id, new_username) }, user.id
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)).to match(expected_response)
-    end
-
-    it 'should return not found for missing user' do
-      patch :update, params: { id: SecureRandom.uuid, username: 'hi' }, format: :json
-      expect(response).to have_http_status(:not_found)
     end
   end
 end
