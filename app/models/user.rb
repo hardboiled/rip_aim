@@ -11,6 +11,10 @@ class User < ApplicationRecord
     on: %i[create update], allow_nil: true
   before_save :downcase_username
 
+  scope :username_starts_with, lambda { |prefix|
+    where('username like :prefix', prefix: "#{prefix}%")
+  }
+
   def downcase_username
     username.downcase! if username_changed?
   end

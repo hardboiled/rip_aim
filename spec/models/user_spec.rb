@@ -21,4 +21,12 @@ RSpec.describe User, type: :model do
     user.save
     expect(user.username).to eq('hellojohn')
   end
+
+  it 'should get usernames that start with hello' do
+    FactoryGirl.create(:user, username: 'hellojohn')
+    FactoryGirl.create(:user, username: 'hellojane')
+    FactoryGirl.create(:user, username: 'byejane8')
+    FactoryGirl.create(:user, username: 'byegeorge')
+    expect(User.username_starts_with('hello').count).to eq(2)
+  end
 end
