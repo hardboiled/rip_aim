@@ -29,6 +29,7 @@ end
 group :test do
   gem 'database_cleaner', '~> 1.6.1'
   gem 'factory_girl', '4.8.0'
+  gem 'overcommit', require: false
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 3.1', require: false
