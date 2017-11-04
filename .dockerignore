@@ -1,0 +1,11 @@
+**/.tags
+log/
+tmp/
+vendor/bundle
+README.*
+coverage/
+.bundle/
+.DS_Store
+.git
+commit_msg
+**/.swp
