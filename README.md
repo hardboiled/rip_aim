@@ -35,7 +35,7 @@ docker-compose version 1.17.0, build ac53b73
 
 ### Bootstraping app
 
-There are a few steps to running the app.
+There are a few steps to running the app:
 
 - Run docker-compose in detached mode
 - Source the alias file (creates convenience commands `docker_rails && docker_compose`)
@@ -102,7 +102,7 @@ This is a convenience endpoint to find users to send messages to.
 
 Since all the seed data has usernames starting with 'myuser', this example uses that for the `search_prefix`.
 
-In a real app, you might use something like ElasticSearch with full-text search for something like this, but with this, you get a prefix option with an index on the username in Postgres.
+In a real app, you might use something like ElasticSearch with full-text search for something like this, but for this app, all you get a prefix option with an index on the username in Postgres. It's good enough ;).
 
 ```bash
 # limit and page are optional
@@ -133,8 +133,11 @@ $ curl -H 'Content-Type: application/json' -b ~/cookie.txt \
 
 Now that you have the logged user ID from either POST sessions/login or POST users,
 try sending a message
+
+```
 your user: 42e808d5-6ba6-4eb8-97be-d1c904ffb99d
 myusername6 user: 9bd21186-c0f2-4add-917c-b0b4ff36ca70
+```
 
 ```base
 $ curl -H 'Content-Type: application/json' -b ~/cookie.txt \
