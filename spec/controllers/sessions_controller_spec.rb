@@ -10,10 +10,19 @@ RSpec.describe SessionsController, type: :controller do
       expect(subject).to render_template('users/show')
       expect(session[:current_user_id]).to eq(user.id)
     end
+
     it 'should not login a user with invalid credentials' do
       password = 'hihihihihi88'
       user = FactoryGirl.create(:user, password: password)
       post :login, params: { username: user.username, password: 'incorrect' }, format: :json
+      expect(response).to have_http_status(:unauthorized)
+      expect(session[:current_user_id]).to be(nil)
+    end
+
+    it 'should return unauthorize for invalid user' do
+      password = 'hihihihihi88'
+      user = FactoryGirl.create(:user, password: password)
+      post :login, params: { username: "#{user.username}00", password: 'incorrect' }, format: :json
       expect(response).to have_http_status(:unauthorized)
       expect(session[:current_user_id]).to be(nil)
     end

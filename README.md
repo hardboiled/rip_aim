@@ -83,16 +83,16 @@ $ curl -H 'Content-Type: application/json' -c ~/cookie.txt \
 # or login to an existing account
 $ curl -H 'Content-Type: application/json' -c ~/cookie.txt \
   $(docker-machine ip):3000/v1/sessions/login \
-  -d '{"username":"myusername1", "password":"passw0rd"}' | \
+  -d '{"username":"running_aim_icon", "password":"hello123"}' | \
   python -m 'json.tool'
 
 # output
 
 {
-    "created_at": "2017-11-05T02:23:26.001Z",
-    "id": "6928bee2-47a5-47a9-9e14-3d29b68e1c58",
-    "updated_at": "2017-11-05T02:23:26.001Z",
-    "username": "myusername1"
+    "created_at": "2017-11-05T02:24:24.781Z",
+    "id": "42e808d5-6ba6-4eb8-97be-d1c904ffb99d",
+    "updated_at": "2017-11-05T02:24:24.781Z",
+    "username": "running_aim_icon"
 }
 ```
 
@@ -142,7 +142,7 @@ myusername6 user: 9bd21186-c0f2-4add-917c-b0b4ff36ca70
 ```base
 $ curl -H 'Content-Type: application/json' -b ~/cookie.txt \
   "$(docker-machine ip):3000/v1/42e808d5-6ba6-4eb8-97be-d1c904ffb99d/messages" \
-  -d '{ "recipient_id": "9bd21186-c0f2-4add-917c-b0b4ff36ca70", "content": "hi-oh", "message_type": "text", "metadata": "{\"tags\":\"That sunset tho!\"}" }' | \
+  -d '{ "recipient_id": "9bd21186-c0f2-4add-917c-b0b4ff36ca70", "content": "hi-oh", "message_type": "text" }' | \
   python -m json.tool
 
 # output

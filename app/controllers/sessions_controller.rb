@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   def login
     user = User.find_by_username(params[:username])
-    unless user.nil? || user.authenticate(params[:password])
+    if user.nil? || !user.authenticate(params[:password])
       return render_error_hash(
         'authorization_error', 'username or password does not match our records', :unauthorized
       )
