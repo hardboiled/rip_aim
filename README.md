@@ -37,12 +37,14 @@ docker-compose version 1.17.0, build ac53b73
 
 There are a few steps to running the app:
 
-- Run docker-compose in detached mode
+- Run docker-compose build
+- Run docker-compose up in detached mode
 - Source the alias file (creates convenience commands `docker_rails && docker_compose`)
 - Run `docker_rails db:reset` to setup and seed the database
 
 ```bash
 $ cd <app_root>
+$ docker-compose build
 $ docker-compose up -d
 $ source ./build/alias.sh # creates docker_rails && docker_rspec aliases
 $ docker_rails db:reset # bootstraps database
