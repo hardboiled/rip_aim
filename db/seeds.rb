@@ -8,8 +8,11 @@
 
 return unless ['development', 'qa'].include?(Rails.env)
 
+prefix = 'myusername'
+return if User.username_starts_with(prefix).count > 0
+
 users = (1..10).to_a.map do |i|
-  User.create!(username: "myusername#{i}", password: 'passw0rd')
+  User.create!(username: "#{prefix}#{i}", password: 'passw0rd')
 end
 
 users.each do |sender|
