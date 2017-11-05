@@ -114,11 +114,15 @@ $ curl -H 'Content-Type: application/json' -b ~/cookie.txt \
 {
     "data": [
         {
+            "created_at": "2017-11-05T15:40:54.547Z",
             "id": "e9a6b696-6fd7-4bff-908c-ed9c65e88f3b",
+            "updated_at": "2017-11-05T15:40:54.547Z",
             "username": "myusername5"
         },
         {
+            "created_at": "2017-11-05T15:40:54.618Z",
             "id": "9bd21186-c0f2-4add-917c-b0b4ff36ca70",
+            "updated_at": "2017-11-05T15:40:54.618Z",
             "username": "myusername6"
         }
     ],
