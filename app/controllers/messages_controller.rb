@@ -7,8 +7,8 @@ class MessagesController < ApplicationController
   before_action :valid_params, :verify_users_exist, :sanitize_pagination_params, only: :index
 
   def create
-    permitted = params.permit(%i[sender_id recipient_id content message_type metadata])
-    @message = Message.create(permitted)
+    permitted = params.permit(%i[sender_id recipient_id content message_type])
+    @message = Message.create(permitted.merge(mock_metadata(permitted[:message_type])))
     return render_validation_error(@message.errors) if @message.errors.any?
     render :show, status: :created
   end
@@ -39,5 +39,17 @@ class MessagesController < ApplicationController
     render_error_hash(
       'authorization_error', 'you do not have access to this resource', :unauthorized
     )
+  end
+
+  def mock_metadata(message_type)
+    data = case message_type
+           when 'video_link'
+             { length: '250', source: 'Vevo' }
+           when 'image_link'
+             { with: '250', height: '250' }
+           when 'text'
+             { tags: 'That sunset tho!' }
+           end
+    { metadata: JSON.unparse(data) }
   end
 end

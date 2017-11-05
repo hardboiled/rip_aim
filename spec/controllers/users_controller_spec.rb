@@ -85,4 +85,55 @@ RSpec.describe UsersController, type: :controller do
       expect(JSON.parse(response.body)).to match(expected_response)
     end
   end
+
+  describe '#index' do
+    let(:user) { FactoryGirl.create(:user) }
+
+    def valid_params(username_prefix, limit = nil, page = nil)
+      {
+        search_prefix: username_prefix,
+        limit: limit,
+        page: page
+      }.compact
+    end
+
+    it_behaves_like 'a user authenticated endpoint' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:execute_request) do
+        lambda do
+          my_params = valid_params('hello')
+          get :index, { params: my_params }.merge(format: :json)
+        end
+      end
+    end
+
+    it 'should require search_prefix' do
+      auth_get :index, {}, user.id
+      expect(response).to have_http_status(:bad_request)
+      expect(JSON.parse(response.body)['error']['message']).to match(/search_prefix/)
+    end
+
+    it 'should support pagination with limit and page' do
+      prefix = 'mylovelytestuser'
+      (1..50).to_a.map do |i|
+        FactoryGirl.create(:user, username: "#{prefix}#{i}")
+      end
+      users = User.username_starts_with(prefix)
+
+      auth_get :index, {
+        params: valid_params(prefix, 10, 2)
+      }, users.first.id
+
+      body = JSON.parse(response.body)
+
+      expect(response).to have_http_status(:ok)
+      expect(body['limit']).to eq(10)
+      expect(body['page']).to eq(2)
+      expect(body['total']).to eq(users.count)
+      limited_users = users.limit(10).offset(20)
+      expect(
+        limited_users.map(&:id)
+      ).to match_array(body['data'].map { |x| x['id'] })
+    end
+  end
 end
