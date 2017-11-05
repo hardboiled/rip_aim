@@ -44,8 +44,8 @@ $ sh ./build/bootstrap-server.sh
 
 It does these things:
 
-- Runs docker-compose build
-- Runs docker-compose up in detached mode
+- Runs `docker-compose build`
+- Runs `docker-compose up` in detached mode
 - Runs `db:migrate`
 - Runs `db:reset` to setup and seed the database if necessary
 
