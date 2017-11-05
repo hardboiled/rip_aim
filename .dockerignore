@@ -9,3 +9,6 @@ coverage/
 .git
 commit_msg
 **/.swp
+images
+README.md
+.DS_Store
