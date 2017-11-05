@@ -103,8 +103,6 @@ This is a convenience endpoint to find users to send messages to.
 
 Since all the seed data has usernames starting with 'myuser', this example uses that for the `search_prefix`.
 
-In a real app, you might use a search cluster with full-text search for this feature, but for this app, all you get a prefix option with an index optimized for [like queries](https://dba.stackexchange.com/questions/172880/index-with-ops-for-like-and-queries) on the username. It's good enough ;).
-
 ```bash
 # limit and page are optional
 $ curl -H 'Content-Type: application/json' -b ~/cookie.txt \
@@ -187,8 +185,10 @@ $ curl -H 'Content-Type: application/json' -b ~/cookie.txt \
 
 ## Development
 
-For active development, the helpers `docker_rails` and `docker_rspec` are created for convenience.
+For active development, the helpers `docker_rails`, `docker_rspec`, and `attach_to_rails` are created for convenience.
 
 As they imply, they run their respective commands in the docker container.
+
+`attach_to_rails` is to be used when you need to access a debugger (e.g. pry/byebug).
 
 To use them, run `source ./build/alias.sh` in the root directory.
