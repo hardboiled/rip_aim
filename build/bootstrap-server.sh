@@ -1,5 +1,7 @@
 #!/bin/bash
 docker-compose build
 docker-compose up -d
-source ./build/alias.sh # creates docker_rails && docker_rspec aliases
-docker_rails db:migrate 2>/dev/null || docker_rails db:reset # bootstraps database if not setup
+
+# bootstraps database if not setup
+docker exec -t $(docker ps --filter "name=ripaim_web" -q) \
+  bash -l -c 'bin/rails db:migrate 2>/dev/null || bin/rails db:reset'

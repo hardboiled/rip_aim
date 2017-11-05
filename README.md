@@ -49,8 +49,6 @@ It does these things:
 - Runs `db:migrate`
 - Runs `db:reset` to setup and seed the database if necessary
 
-Note that the first time you run this script, db:migrate will fail and show console errors. Please ignore as this is expected.
-
 ## Making Requests
 
 The main goal of the app is to create users and allow users to send messages to each other.
