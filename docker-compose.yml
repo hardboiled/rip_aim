@@ -2,6 +2,9 @@ version: '3.2'
 services:
   db:
     image: postgres:10.0-alpine
+    volumes:
+      - "/var/run/postgres/postgres.sock:/var/run/postgres/postgres.sock"
+      - "devpostgresdb:/var/lib/postgresql/data"
   web:
     build:
       context: .
@@ -13,3 +16,6 @@ services:
       - "3000:3000"
     depends_on:
       - db
+
+volumes:
+  devpostgresdb:
