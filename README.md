@@ -35,20 +35,21 @@ docker-compose version 1.17.0, build ac53b73
 
 ### Bootstraping app
 
-There are a few steps to running the app:
-
-- Run docker-compose build
-- Run docker-compose up in detached mode
-- Source the alias file (creates convenience commands `docker_rails && docker_compose`)
-- Run `docker_rails db:reset` to setup and seed the database
+There is a script to bootstrap the app for you. Run it like so:
 
 ```bash
 $ cd <app_root>
-$ docker-compose build
-$ docker-compose up -d
-$ source ./build/alias.sh # creates docker_rails && docker_rspec aliases
-$ docker_rails db:reset # bootstraps database
+$ sh ./build/bootstrap-server.sh
 ```
+
+It does these things:
+
+- Runs docker-compose build
+- Runs docker-compose up in detached mode
+- Runs `db:migrate`
+- Runs `db:reset` to setup and seed the database if necessary
+
+Note that the first time you run this script, db:migrate will fail and show console errors. Please ignore as this is expected.
 
 ## Making Requests
 
