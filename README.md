@@ -27,7 +27,7 @@ You will need to install:
 Here are the versions used to build this project for reference.
 
 ```bash
-docker-machine -v && docker -v && docker-compose -v
+$ docker-machine -v && docker -v && docker-compose -v
 docker-machine version 0.13.0, build 9ba6da9
 Docker version 17.10.0-ce, build f4ffd25
 docker-compose version 1.17.0, build ac53b73
@@ -42,10 +42,10 @@ There are a few steps to running the app.
 - Run `docker_rails db:reset` to setup and seed the database
 
 ```bash
-cd <app_root>
-docker-compose up -d
-source ./build/alias.sh # creates docker_rails && docker_rspec aliases
-docker_rails db:reset # bootstraps database
+$ cd <app_root>
+$ docker-compose up -d
+$ source ./build/alias.sh # creates docker_rails && docker_rspec aliases
+$ docker_rails db:reset # bootstraps database
 ```
 
 ## Making Requests
@@ -57,6 +57,8 @@ Only logged-in users can send messages. Here are example requests to get you sta
 **NOTE: These commands only work after [bootstrapping the app](#bootstraping-app)**
 
 Make sure that the docker images are running via `docker-compose up -d` before attempting to run these commands.
+
+### Creating a user
 
 ```bash
 # create user, this will also sign you in
@@ -74,6 +76,8 @@ $ curl -H 'Content-Type: application/json' -c ~/cookie.txt \
     "username": "running_aim_icon"
 }
 ```
+
+### Log-in to an existing account
 
 ```bash
 # or login to an existing account
