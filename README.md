@@ -49,6 +49,8 @@ It does these things:
 - Runs `db:migrate`
 - Runs `db:reset` to setup and seed the database if necessary
 
+To kill the app, just run `docker-compose down`.
+
 ## Making Requests
 
 The main goal of the app is to create users and allow users to send messages to each other.
@@ -56,8 +58,6 @@ The main goal of the app is to create users and allow users to send messages to 
 Only logged-in users can send messages. Here are example requests to get you started.
 
 **NOTE: These commands only work after [bootstrapping the app](#bootstraping-app)**
-
-Make sure that the docker images are running via `docker-compose up -d` before attempting to run these commands.
 
 ### Creating a user
 
